@@ -1,10 +1,10 @@
 # In Microsoft Edge
 
-[Encryption Converter Tool](https://microsoftedge.microsoft.com/addons/detail/fhicdddmkcahfdhdindjjppajonpobej)
+[Encryption Converter Tool(encrypt)](https://microsoftedge.microsoft.com/addons/detail/fhicdddmkcahfdhdindjjppajonpobej)
 
-[file corruption](https://microsoftedge.microsoft.com/addons/detail/nihmfcmmmkgmgjdmagikcdpmmkncfjhe)
+[file corruption(damage)](https://microsoftedge.microsoft.com/addons/detail/nihmfcmmmkgmgjdmagikcdpmmkncfjhe)
 
-[Eruda Mobile Toggle](https://microsoftedge.microsoft.com/addons/detail/mmokbldjkojonbejhmmhmponieaicbje)
+[Eruda Mobile Toggle(Eruda)](https://microsoftedge.microsoft.com/addons/detail/mmokbldjkojonbejhmmhmponieaicbje)
 
 ---
 
