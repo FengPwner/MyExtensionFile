@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "Eruda Mobile Toggle",
+  "version": "1.0.6",
+  "description": "手机端 Eruda 移动端调试工具，在移动端网页中快速启用 Eruda 调试面板",
+  "minimum_chrome_version": "88",
+  "icons": {
+    "48": "icons/icon48.png"
+  },
+  "permissions": [
+    "storage",
+    "activeTab" 
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "48": "icons/icon48.png"
+    },
+    "default_title": "Eruda 调试工具"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["eruda.min.js"],
+      "matches": ["http://*/*", "https://*/*"]
+    }
+  ]
+}

@@ -1,0 +1,189 @@
+<!-- popup.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      width: 220px;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f8f9fa;
+    }
+    
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    
+    .logo {
+      width: 24px;
+      height: 24px;
+      background: #4CAF50;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    
+    .title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .toggle-container {
+      background: white;
+      border-radius: 8px;
+      padding: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+    
+    .switch {
+      position: relative;
+      width: 40px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+    
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.3s;
+      border-radius: 22px;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+      background-color: #4CAF50;
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(18px);
+    }
+    
+    .toggle-text {
+      font-size: 13px;
+      color: #333;
+      font-weight: 500;
+    }
+    
+    .status {
+      font-size: 11px;
+      color: #666;
+      margin-top: 8px;
+      padding: 4px 0;
+      text-align: center;
+      min-height: 16px;
+    }
+    
+    .status.active {
+      color: #4CAF50;
+      font-weight: 500;
+    }
+    
+    .status.inactive {
+      color: #999;
+    }
+    
+    .divider {
+      height: 1px;
+      background: #e0e0e0;
+      margin: 4px 0;
+    }
+    
+    .footer {
+      text-align: center;
+    }
+    
+    .refresh-btn {
+      background: none;
+      border: none;
+      color: #666;
+      font-size: 11px;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 4px;
+    }
+    
+    .refresh-btn:hover {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">E</div>
+      <span class="title">Eruda 调试工具</span>
+    </div>
+    
+    <div class="toggle-container">
+      <label class="toggle">
+        <span class="switch">
+          <input type="checkbox" id="erudaSwitch">
+          <span class="slider"></span>
+        </span>
+        <span class="toggle-text">启用 Eruda</span>
+      </label>
+    </div>
+    
+    <div class="status" id="status">加载中...</div>
+    
+    <div class="divider"></div>
+    
+    <div class="footer">
+      <button class="refresh-btn" id="refreshBtn">刷新当前页面</button>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

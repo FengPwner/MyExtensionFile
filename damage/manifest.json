@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "file corruption",
+  "version": "1.0",
+  "description": "A local file corruption tool, all operations are done locally in the browser.",
+  "action": {
+    "default_title": "打开文件损坏器",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "48": "icon.png"
+    }
+  },
+  "permissions": []
+}

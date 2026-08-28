@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件损坏器</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #fff;
+            color: #333;
+            width: 320px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #1a1a1a;
+        }
+
+        p {
+            margin: 0;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+        }
+
+        .file-input-inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100px;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #555;
+            transition: all 0.2s;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .file-input-inner:hover {
+            border-color: #0078d4; 
+            background: #f0f8ff;
+            color: #0078d4;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-name-display {
+            margin-top: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+            text-align: center;
+            word-break: break-all;
+            min-height: 1.2em;
+        }
+
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        #corruptBtn {
+            background: #0078d4;
+            color: white;
+        }
+
+        #corruptBtn:hover {
+            background: #106ebe;
+        }
+
+        #downloadBtn {
+            background: #107c10;
+            color: white;
+            display: none;
+        }
+
+        #downloadBtn:hover {
+            background: #0e6c0e;
+        }
+
+        .status {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            min-height: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>文件损坏器</h2>
+        <p>本地处理，安全快速</p>
+
+        <div class="file-input-wrapper">
+            <label for="fileInput" class="file-input-inner">
+                点击选择文件
+            </label>
+            <input type="file" id="fileInput">
+            <div class="file-name-display" id="fileNameDisplay"></div>
+        </div>
+
+        <button id="corruptBtn">START</button>
+        <button id="downloadBtn">DOWNLOAD</button>
+        
+        <div class="status" id="status"></div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const status = document.getElementById('status');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const corruptBtn = document.getElementById('corruptBtn');
+        
+        let corruptedBlob = null;
+
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files.length > 0) {
+                fileNameDisplay.textContent = this.files[0].name;
+                status.textContent = "";
+                downloadBtn.style.display = 'none';
+                corruptedBlob = null;
+            }
+        });
+
+        corruptBtn.onclick = function() {
+            if (!fileInput.files.length) {
+                status.textContent = '请先选择文件';
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            status.textContent = '处理中...';
+            downloadBtn.style.display = 'none';
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const data = new Uint8Array(e.target.result);
+                const fileSize = data.length;
+
+                if (fileSize < 64) {
+                    for (let i = 0; i < fileSize; i++) {
+                        data[i] = Math.floor(Math.random() * 256);
+                    }
+                } else {
+                    for (let i = 0; i < 16; i++) data[i] = Math.floor(Math.random() * 256);
+                    for (let i = fileSize - 16; i < fileSize; i++) data[i] = Math.floor(Math.random() * 256);
+                    for (let k = 0; k < 3; k++) {
+                        const randomPos = Math.floor(Math.random() * (fileSize - 48)) + 16;
+                        for (let j = 0; j < 16; j++) {
+                            data[randomPos + j] = Math.floor(Math.random() * 256);
+                        }
+                    }
+                }
+
+                corruptedBlob = new Blob([data], { type: 'application/octet-stream' });
+                status.textContent = '处理完成';
+                downloadBtn.style.display = 'block';
+            };
+            
+            reader.onerror = () => status.textContent = '读取失败';
+            reader.readAsArrayBuffer(file);
+        };
+
+        downloadBtn.addEventListener('click', function() {
+            if (corruptedBlob) {
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(corruptedBlob);
+                link.download = `CORRUPTED_${fileInput.files[0].name}`;
+                link.click();
+                status.textContent = '下载已启动';
+            }
+        });
+    </script>
+</body>
+</html>

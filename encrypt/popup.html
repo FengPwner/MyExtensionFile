@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent; 
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+            min-height: 100dvh;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            
+            max-width: 500px; 
+            
+            width: clamp(320px, 80vw, 500px);
+        }
+
+        h3 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+            font-size: clamp(1.25rem, 4vw, 1.5rem);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        select, input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem; 
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        select:focus, input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        #encryptBtn {
+            background-color: #007bff;
+            color: white;
+        }
+
+        #encryptBtn:hover {
+            background-color: #0056b3;
+        }
+
+        .secondary {
+            background-color: #e9ecef;
+            color: #333;
+        }
+
+        .secondary:hover {
+            background-color: #dde2e6;
+        }
+
+        #resultOutput {
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+
+        .status {
+            text-align: center;
+            font-size: 0.9rem;
+            min-height: 1.2em;
+            color: #28a745;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                padding: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>Encryption Converter Tool</h3>
+        
+        <label for="algoSelect">Algorithm</label>
+        <select id="algoSelect">
+            <optgroup label="Encoding (Reversible)">
+                <option value="base64">Base64</option>
+                <option value="hex">Hex</option>
+                <option value="rot13">ROT13</option>
+                <option value="url">URL Encode</option>
+            </optgroup>
+            <optgroup label="Symmetric Encryption (Key Required)">
+                <option value="aes-gcm">AES-256-GCM</option>
+                <option value="aes-cbc">AES-256-CBC</option>
+            </optgroup>
+            <optgroup label="Hash Digest (Irreversible)">
+                <option value="sha-1">SHA-1</option>
+                <option value="sha-256" selected>SHA-256</option>
+                <option value="sha-384">SHA-384</option>
+                <option value="sha-512">SHA-512</option>
+            </optgroup>
+            <optgroup label="Message Authentication (Key Required)">
+                <option value="hmac-sha256">HMAC-SHA256</option>
+                <option value="hmac-sha512">HMAC-SHA512</option>
+            </optgroup>
+        </select>
+
+        <div id="keySection" class="hidden">
+            <label for="keyInput">Key / Password</label>
+            <input type="text" id="keyInput" placeholder="Enter key..." autocomplete="off">
+        </div>
+
+        <label for="plainInput">Plain Text</label>
+        <textarea id="plainInput" placeholder="Enter text to convert..."></textarea>
+
+        <div class="btn-row">
+            <button id="encryptBtn">Convert</button>
+            <button id="copyBtn" class="secondary">Copy Result</button>
+            <button id="clearBtn" class="secondary">Clear</button>
+        </div>
+
+        <label for="resultOutput">Result</label>
+        <textarea id="resultOutput" placeholder="Result will appear here..." readonly></textarea>
+        
+        <div id="statusMsg" class="status"></div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
